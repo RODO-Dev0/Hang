@@ -574,11 +574,35 @@ html[dir="rtl"] .nav .badge.pop{animation:badgePopRtl .55s var(--spring)}
 
 /* ===================== SCROLL-COLLAPSING SEARCH ===================== */
 .searchwrap{transition:padding .38s var(--ease)}
-.search{transition:width .45s var(--ease),padding .45s var(--ease),border-radius .45s var(--ease),gap .3s var(--ease),background .3s}
-.searchwrap.collapsed{padding-top:4px;padding-bottom:8px}
-.searchwrap.collapsed .search{width:46px;height:46px;padding:0;gap:0;border-radius:14px;justify-content:center;margin-inline-end:auto;cursor:pointer}
-.searchwrap.collapsed .search input{width:0;flex:0 0 0;opacity:0;pointer-events:none}
-.searchwrap.collapsed .search #search-clear{display:none !important}
+.search{transition:opacity .3s var(--ease),transform .42s var(--ease);will-change:opacity,transform}
+.search-mini{position:absolute;top:6px;inset-inline-start:20px;width:46px;height:46px;border-radius:14px;background:var(--panel);border:1px solid var(--hair);display:grid;place-items:center;color:var(--muted);opacity:0;transform:scale(.6);pointer-events:none;transition:opacity .3s var(--ease),transform .42s var(--spring);z-index:2;will-change:opacity,transform}
+.search-mini svg{width:20px;height:20px}
+.search-mini:active{transform:scale(.88)}
+.searchwrap.collapsed .search{opacity:0;transform:translateX(-16px) scale(.97);pointer-events:none}
+html[dir="rtl"] .searchwrap.collapsed .search{transform:translateX(16px) scale(.97)}
+.searchwrap.collapsed .search-mini{opacity:1;transform:scale(1);pointer-events:auto}
+/* compact header on scroll: hide language button, points slides into its place */
+#lang-toggle{transition:width .42s var(--ease),opacity .28s var(--ease),transform .42s var(--ease),margin .42s var(--ease),padding .42s var(--ease)}
+.topbar.compact #lang-toggle{width:0;padding-inline:0;margin-inline-start:-13px;opacity:0;transform:scale(.55);overflow:hidden;pointer-events:none}
+.pill{transition:transform .42s var(--ease)}
+/* product card control fit (prevents stepper overflow on mobile) */
+.card .prow{gap:8px}
+.card .price{min-width:0;white-space:nowrap}
+.add{width:40px;height:40px;border-radius:12px;font-size:1.32rem}
+.qty-mini{height:40px;padding:0 3px;border-radius:12px}
+.qty-mini button{width:26px;height:40px;font-size:1.2rem}
+.qty-mini span{min-width:14px}
+@media (max-width:380px){
+  .cat-block{padding:0 14px}
+  .grid{gap:11px}
+  .card{padding:11px}
+  .card .pod{height:96px}
+  .card .pod .pimg{width:74px;height:74px}
+  .card .price{font-size:1.02rem}
+  .add{width:36px;height:36px;font-size:1.25rem}
+  .qty-mini{height:36px}
+  .qty-mini button{width:23px;height:36px}
+}
 
 /* ===================== GOLDEN 3s LOADER (after onboarding) ===================== */
 .loader2{position:fixed;inset:0;z-index:201;max-width:var(--maxw);margin:0 auto;overflow:hidden;display:none;place-items:center;
@@ -672,6 +696,7 @@ html[dir="rtl"] .nav .badge.pop{animation:badgePopRtl .55s var(--spring)}
       <h2 class="ob-title" id="ob-name-t">Your name</h2>
       <p class="ob-sub" id="ob-name-s"></p>
       <input class="ob-input" id="ob-name-in" type="text" maxlength="60" autocomplete="name" />
+      <input class="ob-input" id="ob-phone-in" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" />
       <button class="ob-next" id="ob-finish-btn">Get started</button>
       <p class="ob-consent" id="ob-consent"></p>
     </div>
@@ -694,6 +719,7 @@ html[dir="rtl"] .nav .badge.pop{animation:badgePopRtl .55s var(--spring)}
   </div>
 
   <div class="searchwrap" id="searchwrap">
+    <button class="search-mini" id="search-mini" aria-label="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></button>
     <div class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
       <input id="search" type="text" autocomplete="off" />
@@ -857,7 +883,7 @@ const I18N={
   sortDefault:"بنەڕەت",sortLow:"نرخ: کەم بۆ زۆر",sortHigh:"نرخ: زۆر بۆ کەم",
   addMoreFree:"%s دینار زیاتر بۆ گەیاندنی بەخۆڕایی",freeUnlocked:"گەیاندنی بەخۆڕاییت بەدەستهێنا!",
   promoPlaceholder:"کۆدی داشکاندن",promoApply:"جێبەجێکردن",promoApplied:"کۆد جێبەجێکرا",promoInvalid:"کۆد دروست نییە",discount:"داشکاندن",
-  reorder:"دووبارە داواکردن",about:"تازە و جۆری باش، بەخێرایی دەگەیەنرێت بۆ بەردەستت.",addToCart:"زیادکردن بۆ سەبەتە",updateCart:"نوێکردنەوەی سەبەتە",refreshed:"نوێکرایەوە",obSkip:"تێپەڕاندن",obNext:"دواتر",obStart:"دەستپێبکە",obWelcomeT:"بەخێربێیت بۆ هەنگ",obWelcomeS:"بازاڕی خۆراکی تۆ — تازە، خێرا و ئاسان.",obLangT:"زمانەکەت هەڵبژێرە",obLangS:"دواتریش دەتوانیت بیگۆڕیت.",obLocT:"شوێنی خۆت دیاری بکە",obLocS:"بۆ گەیاندنێکی خێراتر، ڕێگە بدە بە شوێنەکەت.",obAllow:"ڕێگەدان بە شوێن",obLocSkip:"دواتر",obNameT:"ناوت چییە؟",obNameS:"ئەمە ئارەزوومەندانەیە — دواتریش دەتوانیت زیادی بکەیت.",obNamePh:"ناوت (ئارەزوومەندانە)",obFinish:"دەستپێبکە",legalTitle:"یاسایی و پاراستن",legalItem:"تایبەتمەندی، مەرجەکان و پاراستن",legalItemSub:"سیاسەتی تایبەتمەندی و داتاکانت",tabPrivacy:"تایبەتمەندی",tabTerms:"مەرجەکان",tabSecurity:"پاراستن",clearData:"سڕینەوەی هەموو داتاکانم",clearConfirm:"دڵنیایت؟ ئەمە سەبەتە، داواکاری، خاڵ و زانیاریەکانت دەسڕێتەوە لەم ئامێرە.",cleared:"داتاکان سڕانەوە",consentPre:"بە بەردەوامبوون ڕازی دەبیت بە",consentLink:"مەرجەکان و تایبەتمەندی",closeBtn:"داخستن"},
+  reorder:"دووبارە داواکردن",about:"تازە و جۆری باش، بەخێرایی دەگەیەنرێت بۆ بەردەستت.",addToCart:"زیادکردن بۆ سەبەتە",updateCart:"نوێکردنەوەی سەبەتە",refreshed:"نوێکرایەوە",obSkip:"تێپەڕاندن",obNext:"دواتر",obStart:"دەستپێبکە",obWelcomeT:"بەخێربێیت بۆ هەنگ",obWelcomeS:"بازاڕی خۆراکی تۆ — تازە، خێرا و ئاسان.",obLangT:"زمانەکەت هەڵبژێرە",obLangS:"دواتریش دەتوانیت بیگۆڕیت.",obLocT:"شوێنی خۆت دیاری بکە",obLocS:"بۆ گەیاندنێکی خێراتر، ڕێگە بدە بە شوێنەکەت.",obAllow:"ڕێگەدان بە شوێن",obLocSkip:"دواتر",obNameT:"ناوت چییە؟",obNameS:"ئەمە ئارەزوومەندانەیە — دواتریش دەتوانیت زیادی بکەیت.",obNamePh:"ناوت (ئارەزوومەندانە)",obFinish:"دەستپێبکە",legalTitle:"یاسایی و پاراستن",legalItem:"تایبەتمەندی، مەرجەکان و پاراستن",legalItemSub:"سیاسەتی تایبەتمەندی و داتاکانت",tabPrivacy:"تایبەتمەندی",tabTerms:"مەرجەکان",tabSecurity:"پاراستن",clearData:"سڕینەوەی هەموو داتاکانم",clearConfirm:"دڵنیایت؟ ئەمە سەبەتە، داواکاری، خاڵ و زانیاریەکانت دەسڕێتەوە لەم ئامێرە.",cleared:"داتاکان سڕانەوە",consentPre:"بە بەردەوامبوون ڕازی دەبیت بە",consentLink:"مەرجەکان و تایبەتمەندی",closeBtn:"داخستن",obPhonePh:"ژمارەی مۆبایل (ئارەزوومەندانە)"},
  ar:{dir:"rtl",name:"عربي",brandSub:"سوق هنگ",search:"ابحث عن منتج...",
   promoTag:"خصم ٢٠٪",promoTitle:"خضار وفواكه طازجة",promoSub:"توصيل سريع كل يوم إلى منزلك",
   navHome:"الرئيسية",navCart:"السلة",navOrders:"الطلبات",navProfile:"حسابي",
@@ -877,7 +903,7 @@ const I18N={
   sortDefault:"افتراضي",sortLow:"السعر: من الأقل",sortHigh:"السعر: من الأعلى",
   addMoreFree:"أضف %s دينار للتوصيل المجاني",freeUnlocked:"حصلت على توصيل مجاني!",
   promoPlaceholder:"كود الخصم",promoApply:"تطبيق",promoApplied:"تم تطبيق الكود",promoInvalid:"كود غير صالح",discount:"الخصم",
-  reorder:"إعادة الطلب",about:"طازج وبجودة عالية، يُوصَّل بسرعة إلى باب منزلك.",addToCart:"أضف إلى السلة",updateCart:"تحديث السلة",refreshed:"تم التحديث",obSkip:"تخطّي",obNext:"التالي",obStart:"ابدأ",obWelcomeT:"أهلاً بك في هنگ",obWelcomeS:"سوق البقالة الخاص بك — طازج وسريع وسهل.",obLangT:"اختر لغتك",obLangS:"يمكنك تغييرها لاحقاً.",obLocT:"حدّد موقعك",obLocS:"لتوصيل أسرع، اسمح بالوصول إلى موقعك.",obAllow:"السماح بالموقع",obLocSkip:"لاحقاً",obNameT:"ما اسمك؟",obNameS:"هذا اختياري — يمكنك إضافته لاحقاً.",obNamePh:"اسمك (اختياري)",obFinish:"ابدأ",legalTitle:"القانونية والأمان",legalItem:"الخصوصية والشروط والأمان",legalItemSub:"سياسة الخصوصية وبياناتك",tabPrivacy:"الخصوصية",tabTerms:"الشروط",tabSecurity:"الأمان",clearData:"حذف كل بياناتي",clearConfirm:"هل أنت متأكد؟ سيؤدي هذا إلى حذف سلتك وطلباتك ونقاطك وبياناتك من هذا الجهاز.",cleared:"تم حذف البيانات",consentPre:"بالمتابعة فإنك توافق على",consentLink:"الشروط والخصوصية",closeBtn:"إغلاق"},
+  reorder:"إعادة الطلب",about:"طازج وبجودة عالية، يُوصَّل بسرعة إلى باب منزلك.",addToCart:"أضف إلى السلة",updateCart:"تحديث السلة",refreshed:"تم التحديث",obSkip:"تخطّي",obNext:"التالي",obStart:"ابدأ",obWelcomeT:"أهلاً بك في هنگ",obWelcomeS:"سوق البقالة الخاص بك — طازج وسريع وسهل.",obLangT:"اختر لغتك",obLangS:"يمكنك تغييرها لاحقاً.",obLocT:"حدّد موقعك",obLocS:"لتوصيل أسرع، اسمح بالوصول إلى موقعك.",obAllow:"السماح بالموقع",obLocSkip:"لاحقاً",obNameT:"ما اسمك؟",obNameS:"هذا اختياري — يمكنك إضافته لاحقاً.",obNamePh:"اسمك (اختياري)",obFinish:"ابدأ",legalTitle:"القانونية والأمان",legalItem:"الخصوصية والشروط والأمان",legalItemSub:"سياسة الخصوصية وبياناتك",tabPrivacy:"الخصوصية",tabTerms:"الشروط",tabSecurity:"الأمان",clearData:"حذف كل بياناتي",clearConfirm:"هل أنت متأكد؟ سيؤدي هذا إلى حذف سلتك وطلباتك ونقاطك وبياناتك من هذا الجهاز.",cleared:"تم حذف البيانات",consentPre:"بالمتابعة فإنك توافق على",consentLink:"الشروط والخصوصية",closeBtn:"إغلاق",obPhonePh:"رقم الهاتف (اختياري)"},
  kmr:{dir:"rtl",name:"Kurmancî",brandSub:"بازارا هەنگێ",search:"ل تشتەکی بگەڕە...",
   promoTag:"٪٢٠ داشکاندن",promoTitle:"سەوزە و میوەیێن تازە",promoSub:"هەر ڕۆژێ گەهاندنا خێرا بۆ مالا تە",
   navHome:"سەرەکی",navCart:"سەبەت",navOrders:"داخواز",navProfile:"پرۆفایل",
@@ -919,7 +945,7 @@ const I18N={
   sortDefault:"Default order",sortLow:"Price: low to high",sortHigh:"Price: high to low",
   addMoreFree:"Add %s more for free delivery",freeUnlocked:"You unlocked free delivery!",
   promoPlaceholder:"Promo code",promoApply:"Apply",promoApplied:"Promo applied",promoInvalid:"Invalid code",discount:"Discount",
-  reorder:"Reorder",about:"Fresh and high quality, delivered fast to your door.",addToCart:"Add to cart",updateCart:"Update cart",refreshed:"Refreshed",obSkip:"Skip",obNext:"Next",obStart:"Get started",obWelcomeT:"Welcome to هەنگ",obWelcomeS:"Your grocery market — fresh, fast and easy.",obLangT:"Choose your language",obLangS:"You can change it later.",obLocT:"Set your location",obLocS:"For faster delivery, allow access to your location.",obAllow:"Allow location",obLocSkip:"Later",obNameT:"What is your name?",obNameS:"This is optional — you can add it later.",obNamePh:"Your name (optional)",obFinish:"Get started",legalTitle:"Legal & Security",legalItem:"Privacy, Terms & Security",legalItemSub:"Your privacy policy & data",tabPrivacy:"Privacy",tabTerms:"Terms",tabSecurity:"Security",clearData:"Clear all my data",clearConfirm:"Are you sure? This erases your cart, orders, points and details from this device.",cleared:"Data cleared",consentPre:"By continuing you agree to our",consentLink:"Terms & Privacy",closeBtn:"Close"}
+  reorder:"Reorder",about:"Fresh and high quality, delivered fast to your door.",addToCart:"Add to cart",updateCart:"Update cart",refreshed:"Refreshed",obSkip:"Skip",obNext:"Next",obStart:"Get started",obWelcomeT:"Welcome to هەنگ",obWelcomeS:"Your grocery market — fresh, fast and easy.",obLangT:"Choose your language",obLangS:"You can change it later.",obLocT:"Set your location",obLocS:"For faster delivery, allow access to your location.",obAllow:"Allow location",obLocSkip:"Later",obNameT:"What is your name?",obNameS:"This is optional — you can add it later.",obNamePh:"Your name (optional)",obFinish:"Get started",legalTitle:"Legal & Security",legalItem:"Privacy, Terms & Security",legalItemSub:"Your privacy policy & data",tabPrivacy:"Privacy",tabTerms:"Terms",tabSecurity:"Security",clearData:"Clear all my data",clearConfirm:"Are you sure? This erases your cart, orders, points and details from this device.",cleared:"Data cleared",consentPre:"By continuing you agree to our",consentLink:"Terms & Privacy",closeBtn:"Close",obPhonePh:"Phone number (optional)"}
 };
 
 const CATS=[
@@ -1335,18 +1361,24 @@ function openLangMenu(){var m=document.getElementById("lang-menu");if(!m)return;
 $("#lang-toggle").onclick=(e)=>{e.stopPropagation();langMenuOpen?closeLangMenu():openLangMenu();buzz(5);};
 $$("#lang-menu .lm-opt").forEach(b=>b.onclick=()=>{LANG=b.dataset.lm;applyLang();updatePoints();closeLangMenu();buzz(6);});
 document.addEventListener("click",e=>{if(langMenuOpen&&!e.target.closest("#lang-menu")&&!e.target.closest("#lang-toggle"))closeLangMenu();});
-(function(){var s=document.querySelector(".search");if(s)s.addEventListener("click",function(){var sw=document.getElementById("searchwrap");if(sw&&sw.classList.contains("collapsed")){$("#screen-home").scrollTo({top:0,behavior:"smooth"});setTimeout(function(){sw.classList.remove("collapsed");$("#search").focus();},130);}});})();
+(function(){var s=document.getElementById("search-mini");if(s)s.onclick=function(){var hs=$("#screen-home");if(hs&&hs.scrollTo)hs.scrollTo({top:0,behavior:"smooth"});setTimeout(function(){var sw=$("#searchwrap");if(sw)sw.classList.remove("collapsed");var tb=$("#topbar");if(tb)tb.classList.remove("compact");$("#search").focus();},150);};})();
 $$("#lang-opts .lang-opt").forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;applyLang();updatePoints();buzz(6);});
 $("#edit-name-btn").onclick=()=>{const v=prompt(t("askName"),user.name||"");if(v!==null&&v.trim()){user.name=v.trim();saveUser();renderProfile();toast(t("saveName"));}};
 
 /* pull to refresh + scroll shadow on home */
 (function(){
-  const hs=$("#screen-home"),hi=$("#home-inner"),sp=$("#ptr-spin"),tb=$("#topbar");
-  let start=null,pull=0;
-  hs.addEventListener("scroll",()=>{var y=hs.scrollTop;tb.classList.toggle("scrolled",y>6);var sw=document.getElementById("searchwrap");if(sw)sw.classList.toggle("collapsed",y>44);if(typeof closeLangMenu==="function")closeLangMenu();});
+  const hs=$("#screen-home"),hi=$("#home-inner"),sp=$("#ptr-spin"),tb=$("#topbar"),sw=$("#searchwrap");
+  let start=null,pull=0,ticking=false,collapsed=false,scrolled=false;
+  function onScroll(){
+    const y=hs.scrollTop;
+    const sc=y>6; if(sc!==scrolled){scrolled=sc;tb.classList.toggle("scrolled",sc);}
+    const col=y>46; if(col!==collapsed){collapsed=col;if(sw)sw.classList.toggle("collapsed",col);tb.classList.toggle("compact",col);if(col&&typeof closeLangMenu==="function"&&langMenuOpen)closeLangMenu();}
+    ticking=false;
+  }
+  hs.addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll);}},{passive:true});
   hs.addEventListener("touchstart",e=>{start=hs.scrollTop<=0?e.touches[0].clientY:null;},{passive:true});
   hs.addEventListener("touchmove",e=>{if(start===null)return;const dy=e.touches[0].clientY-start;if(dy>0){pull=Math.min(dy*0.5,92);hi.style.transform="translateY("+pull+"px)";sp.style.opacity=Math.min(pull/70,1);}},{passive:true});
-  hs.addEventListener("touchend",()=>{if(start===null)return;hi.style.transition="transform .3s";hi.style.transform="";setTimeout(()=>hi.style.transition="",300);if(pull>70){sp.style.opacity="1";buzz(12);loadCatalog(()=>{sp.style.opacity="0";toast(t("refreshed"));});}else sp.style.opacity="0";start=null;pull=0;});
+  hs.addEventListener("touchend",()=>{if(start===null)return;hi.style.transition="transform .3s var(--ease)";hi.style.transform="";setTimeout(()=>hi.style.transition="",300);if(pull>70){sp.style.opacity="1";buzz(12);loadCatalog(()=>{sp.style.opacity="0";toast(t("refreshed"));});}else sp.style.opacity="0";start=null;pull=0;});
 })();
 
 
@@ -1405,6 +1437,7 @@ function obText(){
   $("#ob-name-t").textContent=t("obNameT");
   $("#ob-name-s").textContent=t("obNameS");
   $("#ob-name-in").placeholder=t("obNamePh");
+  var _php=$("#ob-phone-in");if(_php)_php.placeholder=t("obPhonePh");
   $("#ob-finish-btn").textContent=t("obFinish");
   $$("#onboard .ob-skip").forEach(b=>b.textContent=t("obSkip"));
   var _c=document.getElementById("ob-consent");if(_c)_c.innerHTML=t("consentPre")+' <button id="ob-legal-link">'+t("consentLink")+'</button>';
@@ -1467,6 +1500,7 @@ $("#ob-allow-btn").onclick=()=>{
 $("#ob-finish-btn").onclick=()=>{
   const v=clean($("#ob-name-in").value,60);
   if(v){user.name=v;saveUser();}
+  var _ophone=$("#ob-phone-in");if(_ophone){var ph=clean(_ophone.value,20);if(ph){user.phone=ph;store.set("hg_phone",ph);saveUser();}}
   store.set("hg_consent",String(Date.now()));
   buzz([10,30,10]);finishOnboard();
 };
