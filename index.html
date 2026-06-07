@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#FBF7EF" />
 <title>هەنگ — Heng Supermarket</title>
+<script>(function(){try{var t=localStorage.getItem('hg_theme');if(t!=='dark'&&t!=='light'){t=(window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#14110B':'#FBF7EF');}catch(e){}})();</script>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: https:; media-src 'self' data: blob: https:; connect-src https://formspree.io https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com; form-action https://formspree.io; frame-src https://maps.google.com; object-src 'none'; base-uri 'self'">
 <meta name="referrer" content="no-referrer">
 <style>
@@ -52,6 +53,44 @@
   --sans:"Outfit","Vazirmatn",system-ui,sans-serif;
   --rtl:"Vazirmatn",sans-serif;
 }
+
+/* ===================== DARK MODE — "honey at night" ===================== */
+:root[data-theme="dark"]{
+  --bg:#14110B;            /* deep warm espresso canvas */
+  --bg-2:#1B1710;          /* surface (drawers/sheets) */
+  --panel:#241E16;         /* warm dark — inputs & subtle fills */
+  --panel-2:#2C251B;       /* lighter warm dark */
+  --hair:#3A3225;          /* warm hairline */
+  --paper:#201A12;         /* dark card surface */
+  --paper-2:#2A2318;       /* warm pod base */
+  --paper-line:#372F22;
+  --ink:#F4ECDC;           /* warm cream — primary text */
+  --ink-d:#F4ECDC;         /* cream (card text + light accent chips) */
+  --muted:#A89B82;         /* muted warm sand */
+  --muted-d:#A89B82;
+  --saffron:#F2A92A;       /* honey, brighter to pop on dark */
+  --saffron-d:#D08E12;
+  --saffron-deep:#B8730A;
+  --saffron-soft:#3A2E14;  /* soft honey tint -> dark amber */
+  --olive:#6FB04E;
+  --leaf:#6FB04E;
+  --leaf-deep:#3E7D33;
+  --clay:#EE6A4D;
+  --coral:#6FB04E;
+}
+:root[data-theme="dark"] .card .pod{background:radial-gradient(120% 120% at 50% 18%, #322817, var(--paper-2) 82%)}
+:root[data-theme="dark"] .d-pod{background:radial-gradient(120% 120% at 50% 20%, #322817, var(--paper-2) 82%)}
+:root[data-theme="dark"] .nav{background:rgba(27,23,16,.84);border-color:var(--hair)}
+:root[data-theme="dark"] .fav-btn{background:rgba(42,35,24,.72);border-color:rgba(255,255,255,.06)}
+:root[data-theme="dark"] .d-fav{background:rgba(42,35,24,.78);border-color:rgba(255,255,255,.06)}
+:root[data-theme="dark"] .card{box-shadow:0 1px 0 rgba(0,0,0,.18), 0 12px 30px -18px rgba(0,0,0,.7)}
+
+/* theme toggle (splash + profile) */
+.theme-toggle{display:inline-flex;gap:3px;padding:4px;border-radius:var(--r-pill);background:var(--panel);border:1px solid var(--hair)}
+.theme-toggle.float{position:absolute;top:calc(env(safe-area-inset-top) + 16px);inset-inline-end:18px;z-index:6;box-shadow:0 10px 26px -16px rgba(0,0,0,.5)}
+.tt-opt{width:40px;height:34px;border-radius:var(--r-pill);display:grid;place-items:center;font-size:1.02rem;color:var(--muted);transition:background .3s var(--ease),color .3s var(--ease),transform .35s var(--spring)}
+.tt-opt.active{background:var(--saffron);color:#26200f;box-shadow:0 5px 14px -5px rgba(239,162,16,.55)}
+.tt-opt:active{transform:scale(.86)}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
@@ -630,6 +669,10 @@ html[dir="rtl"] .searchwrap.collapsed .search{transform:translateX(16px) scale(.
   <!-- ===================== ONBOARDING / SPLASH ===================== -->
   <div class="onboard" id="onboard">
     <div class="ob-screen active" id="ob-splash">
+      <div class="theme-toggle float" id="theme-toggle-splash" role="group" aria-label="Theme">
+        <button class="tt-opt" type="button" data-theme-set="light" aria-label="Light mode">☀</button>
+        <button class="tt-opt" type="button" data-theme-set="dark" aria-label="Dark mode">☾</button>
+      </div>
       <div class="splash-art">
         <div class="hive">
           <span class="cell c1"></span><span class="cell c2"></span><span class="cell c3"></span>
@@ -781,6 +824,13 @@ html[dir="rtl"] .searchwrap.collapsed .search{transform:translateX(16px) scale(.
         <button class="list-item" id="legal-btn" style="width:100%;text-align:start">
           <div class="li-ic">🛡️</div><div class="li-txt"><strong id="li-legal-t">Privacy, Terms &amp; Security</strong><span id="li-legal-s"></span></div><div class="li-arrow">›</div>
         </button>
+        <div class="list-item" id="theme-row" style="width:100%;text-align:start">
+          <div class="li-ic">🌗</div><div class="li-txt"><strong id="li-theme-t">Appearance</strong><span id="li-theme-s">Light / Dark</span></div>
+          <div class="theme-toggle" id="theme-toggle-profile" role="group" aria-label="Theme" style="margin-inline-start:auto">
+            <button class="tt-opt" type="button" data-theme-set="light" aria-label="Light mode">☀</button>
+            <button class="tt-opt" type="button" data-theme-set="dark" aria-label="Dark mode">☾</button>
+          </div>
+        </div>
       </div>
       <div class="section"><div class="section-head"><h3 id="lang-title">Language</h3></div></div>
       <div class="lang-opts" id="lang-opts">
@@ -854,6 +904,43 @@ const store={
   getJSON(k,f){const v=this.get(k);if(!v)return f;try{return JSON.parse(v);}catch(e){return f;}},
   setJSON(k,o){this.set(k,JSON.stringify(o));}
 };
+
+/* ===================== THEME (light / dark) — RODO_Dev ===================== */
+const THEME_L={
+  ckb:{t:"ڕووکار",s:"ڕووناک / تاریک"},
+  ar:{t:"المظهر",s:"فاتح / داكن"},
+  kmr:{t:"Xuyang",s:"Ronahî / Tarî"},
+  en:{t:"Appearance",s:"Light / Dark"}
+};
+function applyTheme(mode){
+  var m=(mode==="dark")?"dark":"light";
+  document.documentElement.setAttribute("data-theme",m);
+  try{store.set("hg_theme",m);}catch(e){}
+  var meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute("content",m==="dark"?"#14110B":"#FBF7EF");
+  document.querySelectorAll("[data-theme-set]").forEach(function(b){
+    b.classList.toggle("active",b.getAttribute("data-theme-set")===m);
+  });
+}
+function currentTheme(){return document.documentElement.getAttribute("data-theme")||"light";}
+function syncThemeLabels(){
+  var L=(typeof LANG!=="undefined"&&THEME_L[LANG])?THEME_L[LANG]:THEME_L.en;
+  var tt=document.getElementById("li-theme-t"),ts=document.getElementById("li-theme-s");
+  if(tt)tt.textContent=L.t;if(ts)ts.textContent=L.s;
+}
+function initTheme(){
+  var saved=store.get("hg_theme");
+  if(saved!=="dark"&&saved!=="light"){
+    saved=(window.matchMedia&&matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light";
+  }
+  applyTheme(saved);syncThemeLabels();
+}
+document.addEventListener("click",function(e){
+  var b=e.target.closest&&e.target.closest("[data-theme-set]");
+  if(!b)return;
+  applyTheme(b.getAttribute("data-theme-set"));
+  if(typeof buzz==="function")buzz(6);
+});
 const CFG={FORMSPREE:"https://formspree.io/f/mgoqbdao",CURRENCY:"IQD",POINTS_PER:1000,FREE_DELIVERY:25000,DELIVERY_FEE:2000,PROMOS:{"HENG10":0.10,"BEE15":0.15}};
 const HEART='<svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.4-8.9C1.1 8.2 3 4.6 6.4 4.6c2 0 3.3 1.3 3.9 2.1l.7 .9 .7-.9c.6-.8 1.9-2.1 3.9-2.1 3.4 0 5.3 3.6 3.8 7.5C19 16.6 12 21 12 21z"/></svg>';
 
@@ -1019,6 +1106,7 @@ function applyLang(){
   $("#st-points-l").textContent=t("stPoints");$("#st-orders-l").textContent=t("stOrders");$("#st-spent-l").textContent=t("stSpent");
   $("#li-name-t").textContent=t("editName");$("#li-name-s").textContent=t("editNameSub");$("#lang-title").textContent=t("langTitle");
   var _lt=$("#li-legal-t"),_ls=$("#li-legal-s");if(_lt)_lt.textContent=t("legalItem");if(_ls)_ls.textContent=t("legalItemSub");
+  if(typeof syncThemeLabels==="function")syncThemeLabels();
   $$("#lang-opts .lang-opt").forEach(b=>b.classList.toggle("active",b.dataset.lang===LANG));$$("#lang-menu .lm-opt").forEach(b=>b.classList.toggle("active",b.dataset.lm===LANG));
   store.set("hg_lang",LANG);
   renderChips();renderCatalog();renderCartUI();renderProfile();
@@ -1681,6 +1769,7 @@ async function fbSaveOrder(ord){
 }
 
 /* boot */
+initTheme();
 ensureUser();
 applyLang();
 updatePoints();
